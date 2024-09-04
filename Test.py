@@ -1,35 +1,32 @@
 import datetime
 
-validity = True
-
 
 def validate_name(name):
     return name.isalpha() or (name.isspace() == False)
 
 
-def validate_dob(dob, valid_dob):
-    dob_in_new_format = datetime.datetime.strptime(dob, "%d%m%Y")
-    if len(dob) != 8 or dob_in_new_format > datetime.datetime.now():
-        valid_dob = False
-    return valid_dob
+def validate_dob(dob):
+    try:
+        dob_in_new_format = datetime.datetime.strptime(dob, "%d%m%Y")
+
+    except ValueError:
+        return False
+
+    return dob_in_new_format < datetime.datetime.now()
 
 
 surname = input("Enter your surname: ")
 while not validate_name(surname):
-    print("Invalid surname. Please enter a name containing only letters")
+    print("Invalid surname. Please enter a surname ")
     surname = input("Enter your surname: ")
 
 first_name = input("Enter your first name: ")
 while not validate_name(first_name):
-    print("Invalid first name. Please enter a name containing only letters")
+    print("Invalid first name. Please enter a your first name ")
     first_name = input("Enter your first name: ")
 
 date_of_birth = input("Enter your date of birth (DDMMYYYY): ")
-day = date_of_birth[0:2]
-month = date_of_birth[2:4]
-year = date_of_birth[4:8]
-date_of_birth = day + "-" + month + "-" + year
-while not validate_dob(date_of_birth, validity):
+while not validate_dob(date_of_birth):
     print("Invalid date of birth. Please enter a date in the format DDMMYYYY.")
     date_of_birth = input("Enter your date of birth (DDMMYYYY): ")
 
